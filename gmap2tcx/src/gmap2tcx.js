@@ -1,5 +1,5 @@
 /*
-	GMapToTCX 0.1
+	GMapToTCX 0.2
 	http://code.google.com/p/gmap2tcx
 	
 	Extracts .tcx Courses compatible with the Garmin Training Center application from google maps.
@@ -17,10 +17,15 @@
 			+ since Garmin Training Center expects a different Time value for each Trackpoint we 
 			  simply increase the elapsed time by 10 seconds after each point
 	
+	Changelog:
+		# v0.2:
+			+ extracting keywords from driving directions for more accurate Coursepoint names
+		# v0.1 (initial version): 
+			+ creating TCX output with Coursepoints inserted for every driving direction
+			
 	TODO:
 		# consider total distance (and possibly estimated time) in order to have more accurate 
 		  timestamps for points
-		# extract keywords from driving directions instead of guessing
 	
 	Author:  
 		tknerr
@@ -28,7 +33,7 @@
 */
 
 var error = 0;
-var version = '0.1';
+var version = '0.2';
 var googledoc = ""; // will hold retrieved google info
 var gpxvar = ""; // will hold gHomeVPage structure, even for IE
 var routes = new Array();
