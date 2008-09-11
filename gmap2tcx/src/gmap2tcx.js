@@ -261,10 +261,7 @@ function gmaptogpxdiv(dtype) {
 				
 				//store coursepoints for later on
 				if (route[i].desc) {
-					coursepoints.push({"lat": route[i].lat, "lon": route[i].lon, "desc": route[i].desc, "time": time});
-				}
-				if (route[i].keywords) {
-					alert(route[i].keywords);
+					coursepoints.push({"lat": route[i].lat, "lon": route[i].lon, "desc": route[i].desc, "time": time, "keywords": route[i].keywords ? route[i].keywords : new Array()});
 				}
 			}
 //			buf.append("      </trkseg>\n");
@@ -286,7 +283,7 @@ function gmaptogpxdiv(dtype) {
 			t+= getTcxTrackpoint(point.lat, point.lon, time);
 			
 			//store coursepoints for later on
-			coursepoints.push({"lat": point.lat, "lon": point.lon, "desc": point.desc, "time": time});
+			coursepoints.push({"lat": point.lat, "lon": point.lon, "desc": point.desc, "time": time, "keywords": new Array()});
 	    //		'      <cmt>' + point.desc.replace(/(.*) \((.*)\)/, "$2 ($1)") + '</cmt>\n' +
 		}
 		
@@ -299,7 +296,7 @@ function gmaptogpxdiv(dtype) {
 	t+= getTcxTrackEnd();
 	for (i=0;i<coursepoints.length;i++) {
 		cp = coursepoints[i];
-		t+= getTcxCoursepoint(cp.lat, cp.lon, cp.time, cp.desc);
+		t+= getTcxCoursepoint(cp.lat, cp.lon, cp.time, cp.desc, cp.keywords);
 	}
 	t+= getTcxCourseEnd();
 	
@@ -343,10 +340,10 @@ function getTcxTrackEnd() {
 			'			</Track>\n'; 
 }
 
-function getTcxCoursepoint(lat, lon, time, desc) {
+function getTcxCoursepoint(lat, lon, time, desc, keywords) {
 	return '' + 
 			'			<CoursePoint>\n' +
-      '				<Name>' + getTcxCoursepointName(desc) + '</Name>\n' +
+      '				<Name>' + getTcxCoursepointName(desc, keywords) + '</Name>\n' +
       '				<Time>' + time + '</Time>\n' +
 			'				<Position>\n' + 
 			'					<LatitudeDegrees>' + lat + '</LatitudeDegrees>\n' +
@@ -363,6 +360,7 @@ function getTcxCourseEnd() {
 			'</TrainingCenterDatabase>\n';
 }
 
+
 function getTcxName(string, maxlen) {
 	//trim, replace whitespaces with _, remove special chars and cut to maxlen
 	string = ('' + string).replace(/^\s+|\s+$/g, '').replace(/\s/g,'_').replace(/[^A-Za-z_0-9]/g,'').substr(0,maxlen);
@@ -372,10 +370,20 @@ function getTcxName(string, maxlen) {
 	return string;
 }
 
-function getTcxCoursepointName(desc) {
-	//try to guess the street to continue on (search from right)
+function getTcxCoursepointName(desc, keywords) {
+	var way_desc = "";
+	//use keywords for getting the most important bits
+	if (keywords && keywords.length > 0) {
+		//filter out keywords used in getTcxCoursepointType
+		kewords.filter(function(s){
+			return !s.match(/left|links|right|rechts|straight|continue|geradeaus/i);
+		});
+		way_desc = keywords.join('_');
+	} else {
+		way_desc = desc;
+	}
 	//replace str and remove all vowels to fit the most information into 10 chars
-	way_desc = (''+desc).replace(/street|stra.?e|strasse/ig, 'str').replace(/[aeiou]/g,'');
+	way_desc = (''+way_desc).replace(/street|stra.?e|strasse/ig, 'str').replace(/[aeiou]/g,'');
 	if (way_desc.length > 10) {	
 		way_desc = way_desc.substr(way_desc.length - 10);
 	}
