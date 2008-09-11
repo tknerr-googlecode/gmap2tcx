@@ -168,10 +168,12 @@ function gmaptogpxdiv(dtype) {
 			for (var s = 0; s < segmatch.length; s++) {
 				var route = segmatch[s].replace(/.*dirsegtext_([0-9]+)_([0-9]+).*/, "$1");
 				var step = segmatch[s].replace(/.*dirsegtext_([0-9]+)_([0-9]+).*/, "$2");
-				var desc = deamp(segmatch[s].replace(/.*dirsegtext[^>]+>(.*?)<\/td>.*/, "$1"));				
+				var keywords = segmatch[s].match(/<b\b[^>]*>.*?<\/b>/g);
+				var desc = segmatch[s].replace(/.*dirsegtext[^>]+>(.*?)<\/td>.*/, "$1");				
 				var polyline = gpxvar.drive.routes[route].steps[step].polyline;
 				var ppt = gpxvar.drive.routes[route].steps[step].ppt;
 				polylines[polyline][ppt].desc = deamp(desc);
+				polylines[polyline][ppt].keywords = keywords.map(function(s){return deamp(s)});
 			}
 		}
     
@@ -260,6 +262,9 @@ function gmaptogpxdiv(dtype) {
 				//store coursepoints for later on
 				if (route[i].desc) {
 					coursepoints.push({"lat": route[i].lat, "lon": route[i].lon, "desc": route[i].desc, "time": time});
+				}
+				if (route[i].keywords) {
+					alert(route[i].keywords);
 				}
 			}
 //			buf.append("      </trkseg>\n");
