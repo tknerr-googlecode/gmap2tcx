@@ -26,6 +26,8 @@
 	TODO:
 		# consider total distance (and possibly estimated time) in order to have more accurate 
 		  timestamps for points
+		# in case of gmaps POIs, don't create a course but only POIs (if that's possible within
+		  Garmin Training Center)
 	
 	Author:  
 		tknerr
