@@ -220,8 +220,8 @@ function gmaptogpxdiv(dtype) {
   }
 
 	/* t contains the text that will be injected into a <div> overlay */
-	var t="<div style='border:3px dotted orange;padding:2px;background-color:#FFFFFF;margin-left:auto;margin-right:auto;'>";
-	t+="<div style='background-color:gray;'>";
+	var t="<div style='border:3px dotted #DCDCDC;padding:2px;background-color:#FFFFFF;margin-left:auto;margin-right:auto;'>";
+	t+="<div style='background-color:#DCDCDC;'>";
 	t+='<ul class="menubar">';
 	t+='<li class="menubar">GMapToTCX v' + version + '</li>';
 	t+='<li class="menubar"><a href="javascript:closebox();">close [x]</a></li></ul></div>';
@@ -299,7 +299,7 @@ function gmaptogpxdiv(dtype) {
 	t+= getTcxCourseEnd();
 	
 	t+='</textarea>';
-	t+="<div style='background-color:gray;'>";
+	t+="<div style='background-color:#DCDCDC;'>";
 	t+='<ul class="menubar">';
 	t+='<li class="menubar"><a href="javascript:closebox();">close [x]</a></li></ul></div></div>';
 	displaybox(t);
