@@ -375,7 +375,7 @@ function getTcxCoursepointName(desc, keywords) {
 	//use keywords for getting the most important bits
 	if (keywords && keywords.length > 0) {
 		//filter out keywords used in getTcxCoursepointType
-		kewords.filter(function(s){
+		keywords.filter(function(s){
 			return !s.match(/left|links|right|rechts|straight|continue|geradeaus/i);
 		});
 		way_desc = keywords.join('_');
