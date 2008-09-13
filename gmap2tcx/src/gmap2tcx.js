@@ -513,7 +513,8 @@ function hidestatusdiv() {
 }	
 
 // main()
-if (document.location.hostname.indexOf('google') >= 0) {
+//if (document.location.hostname.indexOf('google') >= 0) {
+if (true) {
 	for (var i = 0; i < document.links.length; i++) {
 		if (document.links.item(i).innerHTML && (document.links.item(i).style.display != 'none') && (document.links.item(i).innerHTML.indexOf('view_as_kml') >= 0)) {
 			var kmlurl = document.links.item(i).href; 
